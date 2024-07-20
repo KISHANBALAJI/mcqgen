@@ -33,7 +33,6 @@ with st.form("user_inputs"):
 
     #add button
     button=st.form_submit_button("Create MCQs")
-
     #check if the button is cliked  and all fields have imput
 
     if button and uploaded_file is not None and mcq_count and subject and tone:

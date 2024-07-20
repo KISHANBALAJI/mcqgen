@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: mcqgenerator
+Version: 0.0.1
+Author: Kishan Balaji
+Author-email: kishanbalajimeruga@gmail.com
+Requires-Dist: openai
+Requires-Dist: langchain
+Requires-Dist: steramlit
+Requires-Dist: python-dotenv
+Requires-Dist: PyPDF2

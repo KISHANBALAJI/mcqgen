@@ -7,9 +7,11 @@ from src.mcqgenerator.utils import read_file, get_table_data
 from src.mcqgenerator.logger import logging
 
 # Importing necessary packages from langchain
-from langchain import OpenAI
+from langchain_community.llms import OpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain, SequentialChain
+from langchain.chains import LLMChain
+from langchain.chains.sequential import SequentialChain
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -17,7 +19,7 @@ load_dotenv()
 # Access the environment variables just like you would with os.environ
 key = os.getenv("OPENAI_API_KEY")
 
-llm = OpenAI(openai_api_key=key, model_name="gpt-3.5-turbo", temperature=0.7)
+llm = ChatOpenAI(openai_api_key=key, model_name="gpt-3.5-turbo", temperature=0.7)
 
 template = """
 Text: {text}
@@ -34,7 +36,7 @@ quiz_generation_prompt = PromptTemplate(
     template=template
 )
 
-quiz_chain = LLMChain(llm=llm, prompt=quiz_generation_prompt, output_key="quiz", verbose=True)
+quiz_chain = llm|quiz_generation_prompt
 
 template2 = """
 You are an expert English grammarian and writer. Given a Multiple Choice Quiz for {subject} students, you need to evaluate the complexity of the questions and give a complete analysis of the quiz. Use at most 50 words for complexity analysis.
@@ -50,7 +52,7 @@ quiz_evaluation_prompt = PromptTemplate(
     template=template2
 )
 
-review_chain = LLMChain(llm=llm, prompt=quiz_evaluation_prompt, output_key="review", verbose=True)
+review_chain = llm|quiz_evaluation_prompt
 
 # This is an Overall Chain where we run the two chains in Sequence
 generate_evaluate_chain = SequentialChain(

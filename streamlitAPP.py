@@ -50,9 +50,9 @@ with st.form("user_inputs"):
                             "response_json":json.dumps(RESPONSE_JSON)
                         }
                     )
-                #str.write(reesponse)
+                #str.write(response)
             except Exception as e:
-                traceback.peint_exception(type(e),e,e.__traceback__)
+                traceback.print_exception(type(e),e,e.__traceback__)
                 st.error("Error")
             
             else:
